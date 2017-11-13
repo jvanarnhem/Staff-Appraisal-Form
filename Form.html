@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      .bottom {
+        border-collapse:collapse; 
+        table-layout:fixed; 
+        width:950px;
+        margin: auto;
+      }
+      .top{
+        border:none;
+        border-collapse:collapse;
+        width:950px;
+        margin: auto;
+      }
+      .bottom td {
+        border:solid 2px black; 
+        width:50px; 
+        word-wrap:break-word;
+      }
+      .bottom th {
+        border:solid 2px black; 
+        width:50px;
+      }
+      .bottom th:nth-child(1) {
+        width:200px;
+      }
+      td textarea {
+        width: 99%;
+      }
+      .bottom td:nth-child(1) {  
+        width:200px;
+      }
+    
+      .colQuestion{
+        width: 300px;
+        text-align: left;
+      }
+      
+      .colRating {
+        text-align: center;
+      }
+      .formheading {
+        text-align:center;
+        font-weight:bold;
+        font-size:200%;
+      }
+      
+    </style>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+      // On document load, assign submit function to the submit button's click event
+      $(function() {
+        $('#btnSubmit').click(submit);
+      });
+      
+      function submit() {
+        
+        // removed already displayed messages, if any
+        $("#success,#error").remove();
+        $( "input[type='button']" ).prop({disabled: true});
+        
+        google.script.run
+          .withSuccessHandler (function(msg, elm) {
+            $( "input[type='button']" ).prop({disabled: true});
+            showSuccess(msg,elm);
+          })
+          .withFailureHandler (function(msg, elm) {
+            $( "input[type='button']" ).prop({disabled: true});
+            showError(msg, elm);
+          })
+          .withUserObject(this)
+          .postAppraisal(this.parentNode.parentNode);
+      }
+      
+      function showSuccess (msg, elm) {
+        var span = $('<br /><span id="success"><font color="green"> ' + msg +
+          '</font></span>');
+        $(elm).after(span);
+      }
+      
+      function showError (msg, elm) {
+        var span = $('<br /><span id="error" class="error"> ' + msg +
+          '</span>');
+        $(elm).after(span);
+      }
+    </script>
+</head>
+
+<body>
+  <p align="center"><img src="http://ofhsmath.com/online_forms/images/Generic%20Banner.png" width="960" height="150"><br /><br />
+  <span class="formheading">Support Staff Appraisal Form</span><br /></p>
+  <form>  
+    <!-- TABLE #1 -->
+    <table class = 'top' border='1' cellspacing='1'>
+      <tbody>
+        <tr>
+          <td>
+            <b>Name:</b> <input type='text' name='name' size='40'>
+          </td>
+          <td>
+            <b>Job Title:</b> <input type='text' name='job_title' size='40'>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Date of Hire:</b> <input type='text' name='hire_date'size='30'>
+          </td>
+          <td>
+            <b>Building Location:</b> <input type='text' name='building_location' size='30'>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Evaluation Date:</b> <input type='date' name='date'>
+          </td>
+          <td>
+            <b>Supervisor's Name:</b> <input type='text' name='supervisor_name'size='40'>
+          </td>
+        </tr>
+      <tbody>
+    </table>
+    <br />
+    <!-- TABLE #2 -->
+	<table class = 'bottom' border='1'  cellspacing='1'>
+		<!-- Heading Data -->
+		<thead>
+			<!-- Column Headings -->
+			<tr>
+				<th class='colQuestion'>Performance Factors</th>
+				<th id='col1'>Commendable</th>
+				<th id='col2'>Competent</th>
+				<th id='col3'>Needs <br />Improvement</th>
+				<th id='col4'>Unsatisfactory</th>
+			</tr>
+		</thead>
+
+		<!-- Body Data -->
+		<tbody>
+			<tr>
+				<td class="colQuestion">1.) <b>QUALITY OF WORK:</b> Accuracy, completeness, thoroughness, <br />and neatness of work.</td>
+				<td class="colRating">
+					<input align="center" id="Question1_Opt1" name="response1" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question1_Opt2" name="response1" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question1_Opt3" name="response1" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question1_Opt4" name="response1" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments1" name="comments1"></textarea>
+                </td>
+            </tr>
+			<tr>
+				<td class="colQuestion">2.) <b>QUANTITY OF WORK:</b> Amount of work done.</td>
+				<td class="colRating">
+					<input id="Question2_Opt1" name="response2" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question2_Opt2" name="response2" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question2_Opt3" name="response2" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question2_Opt4" name="response2" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments2" name="comments2"></textarea>
+                </td>
+            </tr>
+            <tr>
+				<td class="colQuestion">3.) <b>KNOWLEDGE:</b> Knowledge of methods, materials, objectives, <br />and other fundamental information skills.</td>
+				<td class="colRating">
+					<input id="Question3_Opt1" name="response3" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question3_Opt2" name="response3" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question3_Opt3" name="response3" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question3_Opt4" name="response3" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments3" name="comments3"></textarea>
+                </td>
+            </tr>
+            <tr>
+				<td class="colQuestion">4.) <b>LEARNING ABILITY:</b> Speed and thoroughness in learning procedures, rules and other details, alertness, perseverance.</td>
+				<td class="colRating">
+					<input id="Question4_Opt1" name="response4" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question4_Opt2" name="response4" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question4_Opt3" name="response4" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question4_Opt4" name="response4" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments4" name="comments4"></textarea>
+                </td>
+            </tr>
+            <tr>
+				<td class="colQuestion">5.) <b>WORK HABITS:</b> Organization of work, care of equipment, safety, industry.</td>
+				<td class="colRating">
+					<input id="Question5_Opt1" name="response5" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question5_Opt2" name="response5" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question5_Opt3" name="response5" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question5_Opt4" name="response5" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments5" name="comments5"></textarea>
+                </td>
+            </tr>
+            <tr>
+				<td class="colQuestion">6.) <b>RELATIONSHIP WITH PEOPLE:</b> Ability to get along with the public and other employees.</td>
+				<td class="colRating">
+					<input id="Question6_Opt1" name="response6" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question6_Opt2" name="response6" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question6_Opt3" name="response6" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question6_Opt4" name="response6" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments6" name="comments6"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">7.) <b>DEPENDABILITY:</b> Degree to which can be relied upon to do the job without close supervision.</td>
+				<td class="colRating">
+					<input id="Question7_Opt1" name="response7" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question7_Opt2" name="response7" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question7_Opt3" name="response7" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question7_Opt4" name="response7" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments7" name="comments7"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">8.) <b>ATTENDANCE:</b> Frequency and nature of absence and tardiness.</td>
+				<td class="colRating">
+					<input id="Question8_Opt1" name="response8" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question8_Opt2" name="response8" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question8_Opt3" name="response8" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question8_Opt4" name="response8" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments8" name="comments8"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">9.) <b>ATTITUDE:</b> Interest in the work, willingness to meet job requirements and accept suggestions, and adhere to conduct as deemed to be ethical in nature.</td>
+				<td class="colRating">
+					<input id="Question9_Opt1" name="response9" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question9_Opt2" name="response9" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question9_Opt3" name="response9" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question9_Opt4" name="response9" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments9" name="comments9"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">10.) <b>PERSONAL APPEARANCE:</b> Appearance and personal habits.</td>
+				<td class="colRating">
+					<input id="Question10_Opt1" name="response10" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question10_Opt2" name="response10" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question10_Opt3" name="response10" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question10_Opt4" name="response10" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments10" name="comments10"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">11.) <b>JUDGMENT:</b> Soundness of decisions and common sense.</td>
+				<td class="colRating">
+					<input id="Question11_Opt1" name="response11" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question11_Opt2" name="response11" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question11_Opt3" name="response11" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question11_Opt4" name="response11" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments11" name="comments11"></textarea>
+                </td>
+            </tr>
+            
+            <tr>
+				<td class="colQuestion">12.) <b>OVERALL RATING:</b> Should reflect the above ratings.</td>
+				<td class="colRating">
+					<input id="Question12_Opt1" name="response12" type="radio" value="4" />
+				</td>
+				<td class="colRating">
+					<input id="Question12_Opt2" name="response12" type="radio" value="3" />
+				</td>
+				<td class="colRating">
+					<input id="Question12_Opt3" name="response12" type="radio" value="2" />
+				</td>
+				<td class="colRating">
+					<input id="Question12_Opt4" name="response12" type="radio" value="1" />
+				</td>
+			</tr>
+            <tr>
+                <td colspan="5">
+                    <label>COMMENTS:</label>
+                    <textarea rows="3" id="comments12" name="comments12"></textarea>
+                </td>
+            </tr>
+		</tbody>
+	</table>
+    <p align="center"><input class="blue" id="btnSubmit" type="button" value="Submit" /></p>
+      <br />
+  </form>
+</body>
+</html>
+
+
